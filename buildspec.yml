@@ -1,0 +1,18 @@
+version: 1.0
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+  build:
+    commands:
+      - echo npm install, build, and test
+      - npm install
+      - npm run build --if-present
+      - npm run test --if-present
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - target/messageUtil-1.0.jar
