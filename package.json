@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/erinknight242/aws-bot#readme",
   "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.282.0",
     "@slack/bolt": "^3.12.2"
   },
   "devDependencies": {}

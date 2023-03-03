@@ -1,10 +1,56 @@
 const { App } = require('@slack/bolt');
+const {
+  SecretsManagerClient,
+  GetSecretValueCommand,
+} = require('@aws-sdk/client-secrets-manager');
+
+const secret_name = "AWS-bot";
+const client = new SecretsManagerClient({
+  region: "us-east-2",
+});
+
+let response;
+let secret;
+
+(async () => {
+  try {
+    response = await client.send(
+      new GetSecretValueCommand({
+        SecretId: secret_name,
+        VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
+      })
+    );
+  } catch (error) {
+    // For a list of exceptions thrown, see
+    // https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
+    throw error;
+  }
+  secret = response.SecretString;
+})();
+
+let token = '';
+let signingSecret = '';
+let socketMode = '';
+let appToken = '';
+
+console.log(process.env.NODE_ENV);
+
+if (process.env.NODE_ENV !== 'production') {
+  token = process.env.SLACK_BOT_TOKEN;
+  signingSecret = process.env.SLACK_SIGNING_SECRET;
+  socketMode = true;
+  appToken = process.env.SLACK_APP_TOKEN;
+} else {
+  token = secret.SLACK_BOT_TOKEN;
+  signingSecret = secret.SLACK_SIGNING_SECRET;
+  socketMode = false;
+}
 
 const app = new App({
-  token: process.env.SLACK_BOT_TOKEN,
-  signingSecret: process.env.SLACK_SIGNING_SECRET,
-  socketMode: false,
-  appToken: process.env.SLACK_APP_TOKEN
+  token,
+  signingSecret,
+  socketMode,
+  appToken
 });
 
 (async () => {
