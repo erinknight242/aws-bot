@@ -1,0 +1,27 @@
+{
+  "name": "aws-bot",
+  "version": "1.0.0",
+  "description": "Your friendly neighborhood robot",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erinknight242/aws-bot.git"
+  },
+  "keywords": [
+    "bolt",
+    "slack"
+  ],
+  "author": "Erin Knight",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erinknight242/aws-bot/issues"
+  },
+  "homepage": "https://github.com/erinknight242/aws-bot#readme",
+  "dependencies": {
+    "@slack/bolt": "^3.12.2"
+  },
+  "devDependencies": {}
+}
