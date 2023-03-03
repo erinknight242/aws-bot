@@ -49,7 +49,7 @@ if (process.env.NODE_ENV !== 'production') {
 const app = new App({
   token,
   signingSecret,
-  socketMode,
+  socketMode: false,
   appToken
 });
 
