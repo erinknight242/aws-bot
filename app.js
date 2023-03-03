@@ -35,7 +35,7 @@ let appToken = '';
 
 console.log(process.env.NODE_ENV);
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
   token = process.env.SLACK_BOT_TOKEN;
   signingSecret = process.env.SLACK_SIGNING_SECRET;
   socketMode = true;
@@ -49,7 +49,7 @@ if (process.env.NODE_ENV !== 'production') {
 const app = new App({
   token,
   signingSecret,
-  socketMode: false,
+  socketMode,
   appToken
 });
 
