@@ -33,7 +33,7 @@ let signingSecret = '';
 let socketMode = '';
 let appToken = '';
 
-console.log(process.env.NODE_ENV);
+console.log(process.env);
 
 if (process.env.NODE_ENV === 'development') {
   token = process.env.SLACK_BOT_TOKEN;
