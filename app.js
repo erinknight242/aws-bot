@@ -26,46 +26,48 @@ let secret;
     throw error;
   }
   secret = response.SecretString;
+  startApp();
 })();
 
-let token = '';
-let signingSecret = '';
-let socketMode = '';
-let appToken = '';
+function startApp() {
+  let token = '';
+  let signingSecret = '';
+  let socketMode = '';
+  let appToken = '';
 
-console.log(process.env);
+  if (process.env.NODE_ENV === 'development') {
+    token = process.env.SLACK_BOT_TOKEN;
+    signingSecret = process.env.SLACK_SIGNING_SECRET;
+    socketMode = true;
+    appToken = process.env.SLACK_APP_TOKEN;
+  } else {
+    token = secret.SLACK_BOT_TOKEN;
+    signingSecret = secret.SLACK_SIGNING_SECRET;
+    socketMode = false;
+  }
+  console.log(token, signingSecret, socketMode);
 
-if (process.env.NODE_ENV === 'development') {
-  token = process.env.SLACK_BOT_TOKEN;
-  signingSecret = process.env.SLACK_SIGNING_SECRET;
-  socketMode = true;
-  appToken = process.env.SLACK_APP_TOKEN;
-} else {
-  token = secret.SLACK_BOT_TOKEN;
-  signingSecret = secret.SLACK_SIGNING_SECRET;
-  socketMode = false;
-}
+  const express = require('express');
+  const web = express();
+  const port = 3000
 
-const express = require('express');
-const web = express();
-const port = 3000
+  web.get('/', (req, res) => res.send('Hello World!'));
 
-web.get('/', (req, res) => res.send('Hello World!'));
+  web.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-web.listen(port, () => console.log(`Example app listening on port ${port}!`));
+  const app = new App({
+    token,
+    signingSecret,
+    socketMode,
+    appToken
+  });
 
-const app = new App({
-  token,
-  signingSecret,
-  socketMode,
-  appToken
-});
+  (async () => {
+    await app.start(process.env.PORT || 3000);
 
-(async () => {
-  await app.start(process.env.PORT || 3000);
-
-  console.log('⚡️ Bolt app is running!');
-})();
+    console.log('⚡️ Bolt app is running!');
+  })();
+};
 
 app.message('hello', async ({ message, say }) => {
   await say(`Hey there <@${message.user}>!`);
