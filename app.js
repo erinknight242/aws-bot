@@ -3,6 +3,7 @@ const {
   SecretsManagerClient,
   GetSecretValueCommand,
 } = require('@aws-sdk/client-secrets-manager');
+const helloWorld = require('./scripts/helloworld');
 
 const secret_name = "AWS-bot";
 const client = new SecretsManagerClient({
@@ -11,6 +12,7 @@ const client = new SecretsManagerClient({
 
 let response;
 let secret;
+let app;
 
 (async () => {
   console.log("***** - 1. Try get secrets");
@@ -26,8 +28,8 @@ let secret;
     // https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
     throw error;
   }
-  console.log(response.SecretString);
   secret = JSON.parse(response.SecretString);
+  console.log(secret);
   startApp();
 })();
 
@@ -58,7 +60,7 @@ function startApp() {
 
   // web.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
-  const app = new App({
+  app = new App({
     token,
     signingSecret,
     socketMode,
@@ -70,6 +72,8 @@ function startApp() {
     await app.start(process.env.PORT || 3000);
 
     console.log('⚡️ Bolt app is running!');
+
+    helloWorld(app);
   })();
 };
 

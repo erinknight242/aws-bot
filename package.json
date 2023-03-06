@@ -14,6 +14,9 @@
     "bolt",
     "slack"
   ],
+  "engines" : { 
+    "node" : ">=16.0.0"
+  },
   "author": "Erin Knight",
   "license": "MIT",
   "bugs": {
