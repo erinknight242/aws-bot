@@ -13,6 +13,7 @@ let response;
 let secret;
 
 (async () => {
+  console.log("***** - 1. Try get secrets");
   try {
     response = await client.send(
       new GetSecretValueCommand({
@@ -25,11 +26,13 @@ let secret;
     // https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
     throw error;
   }
+  console.log(response.SecretString);
   secret = response.SecretString;
   startApp();
 })();
 
 function startApp() {
+  console.log("***** - 2. Start app");
   let token = '';
   let signingSecret = '';
   let socketMode = '';
@@ -47,13 +50,13 @@ function startApp() {
   }
   console.log(token, signingSecret, socketMode);
 
-  const express = require('express');
-  const web = express();
-  const port = 3000
+  // const express = require('express');
+  // const web = express();
+  // const port = 3000
 
-  web.get('/', (req, res) => res.send('Hello World!'));
+  // web.get('/', (req, res) => res.send('Hello World!'));
 
-  web.listen(port, () => console.log(`Example app listening on port ${port}!`));
+  // web.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
   const app = new App({
     token,
@@ -63,6 +66,7 @@ function startApp() {
   });
 
   (async () => {
+    console.log("***** - 3. Start app process");
     await app.start(process.env.PORT || 3000);
 
     console.log('⚡️ Bolt app is running!');
