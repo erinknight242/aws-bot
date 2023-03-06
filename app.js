@@ -27,7 +27,7 @@ let secret;
     throw error;
   }
   console.log(response.SecretString);
-  secret = response.SecretString;
+  secret = JSON.parse(response.SecretString);
   startApp();
 })();
 
