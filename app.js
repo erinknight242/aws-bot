@@ -3,38 +3,40 @@ const {
   SecretsManagerClient,
   GetSecretValueCommand,
 } = require('@aws-sdk/client-secrets-manager');
-const helloWorld = require('./scripts/helloworld');
-
-const secret_name = "AWS-bot";
-const client = new SecretsManagerClient({
-  region: "us-east-2",
-});
+const cycleInfo = require('./scripts/cycleInfo');
+const helloWorld = require('./scripts/helloWorld');
 
 let response;
 let secret;
 let app;
 
-(async () => {
-  console.log("***** - 1. Try get secrets");
-  try {
-    response = await client.send(
-      new GetSecretValueCommand({
-        SecretId: secret_name,
-        VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
-      })
-    );
-  } catch (error) {
-    // For a list of exceptions thrown, see
-    // https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
-    throw error;
-  }
-  secret = JSON.parse(response.SecretString);
-  console.log(secret);
+if (process.env.NODE_ENV !== 'development') {
+  const secret_name = "AWS-bot";
+  const client = new SecretsManagerClient({
+    region: "us-east-2",
+  });
+  (async () => {
+    try {
+      response = await client.send(
+        new GetSecretValueCommand({
+          SecretId: secret_name,
+          VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
+        })
+      );
+    } catch (error) {
+      // For a list of exceptions thrown, see
+      // https://docs.aws.amazon.com/secretsmanager/latest/apireference/API_GetSecretValue.html
+      throw error;
+    }
+    secret = JSON.parse(response.SecretString);
+    console.log(secret);
+    startApp();
+  })();
+} else {
   startApp();
-})();
+}
 
 function startApp() {
-  console.log("***** - 2. Start app");
   let token = '';
   let signingSecret = '';
   let socketMode = '';
@@ -52,14 +54,6 @@ function startApp() {
   }
   console.log(token, signingSecret, socketMode);
 
-  const express = require('express');
-  const web = express();
-  const port = 3000
-
-  web.get('/', (req, res) => res.send('Hello World!'));
-
-  web.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
   app = new App({
     token,
     signingSecret,
@@ -68,11 +62,11 @@ function startApp() {
   });
 
   (async () => {
-    console.log("***** - 3. Start app process");
     await app.start(process.env.PORT || 3000);
 
     console.log('⚡️ Bolt app is running!');
 
+    cycleInfo(app);
     helloWorld(app);
   })();
 };
