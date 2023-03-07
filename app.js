@@ -4,7 +4,7 @@ const {
   GetSecretValueCommand,
 } = require('@aws-sdk/client-secrets-manager');
 const cycleInfo = require('./scripts/cycleInfo');
-const helloWorld = require('./scripts/helloworld');
+const hello = require('./scripts/hello');
 
 let response;
 let secret;
@@ -66,6 +66,6 @@ function startApp() {
     console.log('⚡️ Bolt app is running!');
 
     cycleInfo(app);
-    helloWorld(app);
+    hello(app);
   })();
 };
