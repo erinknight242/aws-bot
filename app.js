@@ -4,7 +4,7 @@ const {
   GetSecretValueCommand,
 } = require('@aws-sdk/client-secrets-manager');
 const cycleInfo = require('./scripts/cycleInfo');
-const helloWorld = require('./scripts/helloWorld');
+const helloWorld = require('./scripts/helloworld');
 
 let response;
 let secret;
@@ -29,7 +29,6 @@ if (process.env.NODE_ENV !== 'development') {
       throw error;
     }
     secret = JSON.parse(response.SecretString);
-    console.log(secret);
     startApp();
   })();
 } else {
