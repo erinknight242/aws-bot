@@ -11,54 +11,69 @@ module.exports = (app) => {
   app.command("/cycle", async ({ command, ack, say }) => {
     try {
       await ack();
-      let currentDate = true;
-      let date = null;
-      let output = '';
-      let today = new Date();
-      if (command.text) {
-        date = new Date(command.text);
-        currentDate = false;
-        output = `On ${date.toLocaleDateString()}, we `;
-        if (date > today) {
-          output += "will be in "
-        } else if (date < today) {
-          output += "were in "
-        } else {
-          output += "are in "
-        }
-      } else {
-        date = today;
-        output = `We are in `
-      }
-      let left = null;
-      let right = null;
-      for (let i = 0; i < tempData.length; i++) {
-        const testStart = new Date(tempData[i].startDate);
-        const testEnd = new Date(tempData[i].endDate);
-        if (testStart > date) {
-          break;
-        }
-        if (testStart <= date) {
-          left = i;
-        }
-        if (testEnd >= date) {
-          right = i;
-        }
-      }
-      if (left === null) {
-        output += "the before times.";
-      } else if (right === null && left === tempData.length - 1) {
-        output += "undefined territory.";
-      } else if (left !== right) {
-        output += `between build cycles. ${tempData[left + 1].name} will start on ${tempData[left + 1].startDate}`;
-      } else {
-        output += `${tempData[left].name} until ${tempData[left].endDate}`;
-      }
-      
-      say(output);
+      reply(say, command.text);
     } catch (error) {
         console.log("err")
       console.error(error);
     }
-});
+  });
+
+  app.event('app_mention', async ({ event, context, client, say }) => {
+    try {
+      if (event.text.search(/cycle/)) {
+        reply(say);
+      }
+    }
+    catch (error) {
+      console.error(error);
+    }
+  });
+
+  function reply(say, string) {
+    let currentDate = true;
+    let date = null;
+    let output = '';
+    let today = new Date();
+    if (string) {
+      date = new Date(string);
+      currentDate = false;
+      output = `On ${date.toLocaleDateString()}, we `;
+      if (date > today) {
+        output += "will be in "
+      } else if (date < today) {
+        output += "were in "
+      } else {
+        output += "are in "
+      }
+    } else {
+      date = today;
+      output = `We are in `
+    }
+    let left = null;
+    let right = null;
+    for (let i = 0; i < tempData.length; i++) {
+      const testStart = new Date(tempData[i].startDate);
+      const testEnd = new Date(tempData[i].endDate);
+      if (testStart > date) {
+        break;
+      }
+      if (testStart <= date) {
+        left = i;
+      }
+      if (testEnd >= date) {
+        right = i;
+      }
+    }
+    if (left === null) {
+      output += "the before times.";
+    } else if (right === null && left === tempData.length - 1) {
+      output += "undefined territory.";
+    } else if (left !== right) {
+      output += `between build cycles. ${tempData[left + 1].name} will start on ${tempData[left + 1].startDate}`;
+    } else {
+      output += `${tempData[left].name} until ${tempData[left].endDate}`;
+    }
+
+    say(output);
+  }
 }
