@@ -11,7 +11,7 @@ let secret;
 let app;
 
 if (process.env.NODE_ENV !== 'development') {
-  const secret_name = "aws-bot";
+  const secret_name = "aws-bot-secret";
   const client = new SecretsManagerClient({
     region: "us-east-2",
   });
