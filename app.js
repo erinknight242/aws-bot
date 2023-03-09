@@ -5,6 +5,7 @@ const {
 } = require('@aws-sdk/client-secrets-manager');
 const cycleInfo = require('./scripts/cycleInfo');
 const hello = require('./scripts/hello');
+const whereIs = require('./scripts/whereIs');
 
 let response;
 let secret;
@@ -67,5 +68,6 @@ function startApp() {
 
     cycleInfo(app);
     hello(app);
+    whereIs(app);
   })();
 };

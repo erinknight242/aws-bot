@@ -20,7 +20,7 @@ module.exports = (app) => {
 
   app.event('app_mention', async ({ event, context, client, say }) => {
     try {
-      if (event.text.search(/cycle/)) {
+      if (event.text.search(/cycle/) > -1) {
         reply(say);
       }
     }

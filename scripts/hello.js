@@ -1,39 +1,18 @@
+const { random, timeOfDay } = require('../utils/utils');
+
 module.exports = (app) => {
   app.message(/hello/i, async ({ message, say }) => {
-    await say(`Hey there <@${message.user}>!`);
-  });
+    const greetings = [
+      `Hey there <@${message.user}>!`,
+      `Good ${timeOfDay()}, <@${message.user}>!`,
+      "Howdy!"
+    ];
 
-  app.message('can I get a button?', async ({ message, say }) => {
-    // say() sends a message to the channel where the event was triggered
-    await say({
-      blocks: [
-        {
-          "type": "section",
-          "text": {
-            "type": "mrkdwn",
-            "text": `Text? Button?`
-          },
-          "accessory": {
-            "type": "button",
-            "text": {
-              "type": "plain_text",
-              "text": "Click Me"
-            },
-            "action_id": "button_click"
-          }
-        }
-      ],
-      text: `Sho 'nuff`
-    });
-  });
-
-
-  app.action('button_click', async ({ body, ack, say }) => {
-    await ack();
-    await say(`<@${body.user.id}> This is the local bot!`);
+    await say(greetings[random(greetings.length)]);
   });
 
   app.message('who are you?', async ({ message, say }) => {
-    await say(`AWS bot`);
+    const botType = process.env.NODE_ENV !== 'development' ? 'AWS bot' : 'local bot'
+    await say(botType);
   });
 }
