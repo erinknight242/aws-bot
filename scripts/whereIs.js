@@ -24,6 +24,7 @@ const conferenceRooms = {
   "the bathroom": "https://www.eknightmusic.com/images/maps/restroom.jpg",
   "the break room": "https://www.eknightmusic.com/images/maps/breakroom.jpg",
   "the gym": "https://www.eknightmusic.com/images/maps/thegym.jpg",
+  "the kitchen": "https://www.eknightmusic.com/images/maps/breakroom.jpg",
   "the restroom": "https://www.eknightmusic.com/images/maps/restroom.jpg",
   "the studio": "https://www.eknightmusic.com/images/maps/studio.jpg",
   "the training room": "https://www.eknightmusic.com/images/maps/hummingbird.jpg",
