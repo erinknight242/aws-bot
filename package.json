@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "description": "Your friendly neighborhood robot",
   "scripts": {
-    "build": "rm -rf dist && webpack --mode production --config webpack.prod.config.js",
+    "build": "npm run clean && webpack --mode production --config webpack.prod.config.js",
     "start": "node ./dist/main.bundle.js",
-    "clean": "rimraf dist",
-    "test": "jest",
-    "lint": "eslint \"./**/*.{js,ts,tsx}\" --fix --cache"
+    "clean": "rimraf dist"
   },
   "eslintConfig": {
     "extends": [
