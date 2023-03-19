@@ -3,25 +3,10 @@
   "version": "1.0.0",
   "description": "Your friendly neighborhood robot",
   "scripts": {
-    "build": "npm run clean && webpack --mode production --config webpack.prod.config.js && node ./dist/main.bundle.js",
+    "build": "npm run clean && webpack --config webpack.prod.config.js",
+    "start": "node ./dist/main.bundle.js",
+    "dev": "cross-env NODE_ENV=development nodemon --exec node_modules/.bin/babel-node ./src/app.js",
     "clean": "rimraf dist"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "repository": {
     "type": "git",
@@ -45,7 +30,9 @@
     "@slack/bolt": "^3.12.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.21.0",
     "@babel/core": "^7.21.3",
+    "@babel/node": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
     "aws-crt": "^1.15.9",
     "babel-loader": "^9.1.2",
@@ -56,6 +43,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "html-webpack-plugin": "^5.5.0",
+    "nodemon": "^2.0.21",
     "prettier": "^2.8.4",
     "utf-8-validate": "^6.0.3",
     "webpack": "^5.76.2",

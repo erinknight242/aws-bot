@@ -7,13 +7,6 @@ const baseConfig = require("./webpack.base.config");
 
 module.exports = merge(baseConfig, {
   mode: "development",
-  devServer: {
-    static: {
-      directory: SRC_DIR,
-      watch: { ignored: /node_modules/ }
-    },
-    port: 3030, 
-  },
   module: {
     rules: [
       {

@@ -1,4 +1,4 @@
-import { random } from "../src/utils/utils";
+import { random } from "../utils/utils";
 
 const answers = [
   "It is certain",

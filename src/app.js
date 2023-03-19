@@ -3,16 +3,18 @@ import {
   SecretsManagerClient,
   GetSecretValueCommand,
 } from "@aws-sdk/client-secrets-manager";
-import cycleInfo from "./scripts/cycleInfo";
-import hello from "./scripts/hello";
-import magic8 from "./scripts/magic8";
-import whereIs from "./scripts/whereIs";
+import cycleInfo from "../scripts/cycleInfo";
+import hello from "../scripts/hello";
+import magic8 from "../scripts/magic8";
+import whereIs from "../scripts/whereIs";
 
 let response;
 let secret;
 let app;
 
+console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV !== "development") {
+  console.log("not development");
   const secret_name = "aws-bot-secret";
   const client = new SecretsManagerClient({
     region: "us-east-2",
