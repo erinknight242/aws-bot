@@ -2,9 +2,29 @@
   "name": "aws-bot",
   "version": "1.0.0",
   "description": "Your friendly neighborhood robot",
-  "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "build": "rm -rf dist && webpack --mode production --config webpack.prod.config.js",
+    "start": "node ./dist/main.bundle.js",
+    "clean": "rimraf dist",
+    "test": "jest",
+    "lint": "eslint \"./**/*.{js,ts,tsx}\" --fix --cache"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "repository": {
     "type": "git",
@@ -27,5 +47,24 @@
     "@aws-sdk/client-secrets-manager": "^3.282.0",
     "@slack/bolt": "^3.12.2"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@babel/core": "^7.21.3",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "aws-crt": "^1.15.9",
+    "babel-loader": "^9.1.2",
+    "bufferutil": "^4.0.7",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.36.0",
+    "eslint-config-prettier": "^8.7.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "html-webpack-plugin": "^5.5.0",
+    "prettier": "^2.8.4",
+    "utf-8-validate": "^6.0.3",
+    "webpack": "^5.76.2",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.13.1",
+    "webpack-merge": "^5.8.0"
+  }
 }
