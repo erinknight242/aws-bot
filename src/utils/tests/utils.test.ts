@@ -1,4 +1,4 @@
-import { random, timeOfDay } from "./utils";
+import { random, timeOfDay } from "../utils";
 
 describe("random", () => {
   it("returns a number between 0 and 9 by default", () => {
