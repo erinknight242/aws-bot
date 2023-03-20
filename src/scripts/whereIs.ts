@@ -1,6 +1,54 @@
 import { App } from "../utils/types";
 import { random } from "../utils/utils";
 
+export const regex = /where ?[i'’]?s ([^?]*)([?]*)/i;
+
+export default (app: App) => {
+  /**
+   * Respond to "Where is..." questions in any room when @ mentioned
+   */
+  app.event("app_mention", async ({ event, say }) => {
+    if (event.text.match(regex)) {
+      reply(event.text, say);
+    }
+  });
+
+  /**
+   * Respond to "Where is..." questions when DM'ed (without @ mention)
+   */
+  app.message(regex, async ({ message, say }) => {
+    if (message.channel_type === "im") {
+      reply(message.text, say);
+    }
+  });
+};
+
+export const reply = async (question: string, say: any) => {
+  const questionRegex = new RegExp(regex);
+  const textMatch = questionRegex.exec(question);
+  if (textMatch && textMatch?.length >= 1) {
+    const room = textMatch[1].toLowerCase().trim();
+    const url = conferenceRooms[room as ConferenceRoomNames];
+    if (url) {
+      await say({
+        blocks: [
+          {
+            type: "image",
+            image_url: url,
+            alt_text: "Map image",
+          },
+        ],
+
+        text: "In the Louisville office",
+      });
+    } else {
+      await say(barks[random(barks.length)]);
+    }
+  }
+};
+
+export type ConferenceRoomNames = "bluebird";
+
 export const conferenceRooms = {
   bluebird: "https://www.eknightmusic.com/images/maps/bluebird.jpg",
   "blue spruce": "https://www.eknightmusic.com/images/maps/bluespruce.jpg",
@@ -47,49 +95,3 @@ export const barks = [
   "I dunno...",
   "Not sure; did you spell it correctly?",
 ];
-
-export const regex = /where ?[i'’]?s ([^?]*)([?]*)/i;
-
-export default (app: App) => {
-  /**
-   * Respond to "Where is..." questions in any room when @ mentioned
-   */
-  app.event("app_mention", async ({ event, say }) => {
-    if (event.text.match(regex)) {
-      reply(event.text, say);
-    }
-  });
-
-  /**
-   * Respond to "Where is..." questions when DM'ed (without @ mention)
-   */
-  app.message(regex, async ({ message, say }) => {
-    if (message.channel_type === "im") {
-      reply(message.text, say);
-    }
-  });
-};
-
-export const reply = async (question: string, say: any) => {
-  const questionRegex = new RegExp(regex);
-  const textMatch = questionRegex.exec(question);
-  if (textMatch && textMatch?.length >= 1) {
-    const room = textMatch[1].toLowerCase().trim();
-    const url = conferenceRooms[room as string];
-    if (url) {
-      await say({
-        blocks: [
-          {
-            type: "image",
-            image_url: url,
-            alt_text: "Map image",
-          },
-        ],
-
-        text: "In the Louisville office",
-      });
-    } else {
-      await say(barks[random(barks.length)]);
-    }
-  }
-};
