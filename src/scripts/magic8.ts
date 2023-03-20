@@ -24,9 +24,11 @@ const answers = [
   "Very doubtful",
 ];
 
+export const regex = /(will (.+)\?)/gi;
+
 export default (app: App) => {
   app.event("app_mention", async ({ event, say }) => {
-    if (event.text.match(/(will (.+)\?)/gi)) {
+    if (event.text.match(regex)) {
       await say(`:magic8ball: ${answers[random(answers.length)]}`);
     }
   });

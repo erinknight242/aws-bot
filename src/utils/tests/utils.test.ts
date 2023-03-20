@@ -1,4 +1,5 @@
-import { random, timeOfDay } from "../utils";
+import { getText, random, timeOfDay } from "../utils";
+import { messageWithMention } from "../testData";
 
 describe("random", () => {
   it("returns a number between 0 and 9 by default", () => {
@@ -57,5 +58,11 @@ describe("timeOfDay", () => {
     expect(timeOfDay(morningTimeString)).toEqual("morning");
     expect(timeOfDay(afternoonTimeString)).toEqual("afternoon");
     expect(timeOfDay(eveningTimeString)).toEqual("evening");
+  });
+});
+
+describe("getText", () => {
+  it("returns the text of a message after a mention", () => {
+    expect(getText(messageWithMention)).toEqual("hello");
   });
 });

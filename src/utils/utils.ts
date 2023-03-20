@@ -1,3 +1,5 @@
+import { Message } from "./types";
+
 /**
  * Returns a random integer (zero-indexed)
  * @param  {Number} range Random number will be generated between 0 and range - 1. Defaults to 10.
@@ -32,12 +34,10 @@ export const timeOfDay = (
 };
 
 /**
- * Returns the text of the slack message
+ * Returns the text of the slack message after a mention
  * @param message    The message object from Slack
  * @returns {string} The text string of the message
  */
-export const getText = (message: {
-  blocks: { elements: { elements: { text: string }[] }[] }[];
-}) => {
-  return message.blocks[0].elements[0].elements[1].text;
+export const getText = (message: Message) => {
+  return message.blocks[0].elements[0].elements[1].text?.trim();
 };

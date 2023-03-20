@@ -63,58 +63,58 @@ export default (app: App) => {
       console.error(error);
     }
   });
-
-  const reply = (
-    say: (arg0: string) => void,
-    string: string | number | Date
-  ) => {
-    let date: number;
-    let output = "";
-    const today = new Date().setHours(0, 0, 0, 0);
-    if (string !== "") {
-      const displayToday = new Date(string);
-      date = new Date(string).setHours(0, 0, 0, 0);
-      output = `On ${displayToday.toLocaleDateString()}, we `;
-      if (date > today) {
-        output += "will be in ";
-      } else if (date < today) {
-        output += "were in ";
-      } else {
-        output += "are in ";
-      }
-    } else {
-      date = today;
-      output = `We are in `;
-    }
-
-    const cycleDates = getDateBounds(date);
-
-    if (cycleDates.left === null) {
-      // before the calendar starts
-      output += "the before times.";
-    } else if (
-      cycleDates.right === null &&
-      cycleDates.left === tempData.length - 1
-    ) {
-      // after the calendar ends
-      output += "undefined territory.";
-    } else if (cycleDates.left !== cycleDates.right) {
-      // on a weekend between build cycles
-      output += `between build cycles. ${
-        tempData[cycleDates.left + 1].name
-      } will start on ${tempData[cycleDates.left + 1].startDate}`;
-    } else {
-      // in a normal build cycle
-      output += `${tempData[cycleDates.left].name} until ${
-        tempData[cycleDates.left].endDate
-      }`;
-    }
-
-    say(output);
-  };
 };
 
-const getDateBounds = (date: number) => {
+export const reply = (
+  say: (arg0: string) => void,
+  string: string | number | Date
+) => {
+  let date: number;
+  let output = "";
+  const today = new Date().setHours(0, 0, 0, 0);
+  if (string !== "") {
+    const displayToday = new Date(string);
+    date = new Date(string).setHours(0, 0, 0, 0);
+    output = `On ${displayToday.toLocaleDateString()}, we `;
+    if (date > today) {
+      output += "will be in ";
+    } else if (date < today) {
+      output += "were in ";
+    } else {
+      output += "are in ";
+    }
+  } else {
+    date = today;
+    output = `We are in `;
+  }
+
+  const cycleDates = getDateBounds(date);
+
+  if (cycleDates.left === null) {
+    // before the calendar starts
+    output += "the before times.";
+  } else if (
+    cycleDates.right === null &&
+    cycleDates.left === tempData.length - 1
+  ) {
+    // after the calendar ends
+    output += "undefined territory.";
+  } else if (cycleDates.left !== cycleDates.right) {
+    // on a weekend between build cycles
+    output += `between build cycles. ${
+      tempData[cycleDates.left + 1].name
+    } will start on ${tempData[cycleDates.left + 1].startDate}`;
+  } else {
+    // in a normal build cycle
+    output += `${tempData[cycleDates.left].name} until ${
+      tempData[cycleDates.left].endDate
+    }`;
+  }
+
+  say(output);
+};
+
+export const getDateBounds = (date: number) => {
   let left: number | null = null;
   let right: number | null = null;
   for (let i = 0; i < tempData.length; i++) {

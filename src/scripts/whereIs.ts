@@ -1,9 +1,7 @@
 import { App } from "../utils/types";
 import { random } from "../utils/utils";
 
-export type ConferenceRoomNames = "bluebird" | "blue spruce" | "carnegie";
-
-const conferenceRooms = {
+export const conferenceRooms = {
   bluebird: "https://www.eknightmusic.com/images/maps/bluebird.jpg",
   "blue spruce": "https://www.eknightmusic.com/images/maps/bluespruce.jpg",
   carnegie: "https://www.eknightmusic.com/images/maps/carnegie.jpg",
@@ -43,39 +41,55 @@ const conferenceRooms = {
     "https://64.media.tumblr.com/3ce1699f571e06b859c28cc982146d78/faf70da087c6ae0e-77/s1280x1920/16f54d1e168ddc035ec92ed3efdbd29fa595ad18.jpg",
 };
 
-const barks = [
+export const barks = [
   "I only know how to find conference rooms.",
   "I don't think that is a conference room.",
   "I dunno...",
   "Not sure; did you spell it correctly?",
 ];
 
-const regex = /where ?[i']?s ([^?]*)([?]*)/gi;
+export const regex = /where ?[i'’]?s ([^?]*)([?]*)/i;
 
 export default (app: App) => {
+  /**
+   * Respond to "Where is..." questions in any room when @ mentioned
+   */
   app.event("app_mention", async ({ event, say }) => {
     if (event.text.match(regex)) {
-      const questionRegex = new RegExp(regex);
-      const textMatch = questionRegex.exec(event.text);
-      if (textMatch && textMatch?.length >= 1) {
-        const room = textMatch[1].toLowerCase().trim();
-        const url = conferenceRooms[room as ConferenceRoomNames];
-        if (url) {
-          await say({
-            blocks: [
-              {
-                type: "image",
-                image_url: url,
-                alt_text: "Map image",
-              },
-            ],
-
-            text: "In the Louisville office",
-          });
-        } else {
-          await say(barks[random(barks.length)]);
-        }
-      }
+      reply(event.text, say);
     }
   });
+
+  /**
+   * Respond to "Where is..." questions when DM'ed (without @ mention)
+   */
+  app.message(regex, async ({ message, say }) => {
+    if (message.channel_type === "im") {
+      reply(message.text, say);
+    }
+  });
+};
+
+export const reply = async (question: string, say: any) => {
+  const questionRegex = new RegExp(regex);
+  const textMatch = questionRegex.exec(question);
+  if (textMatch && textMatch?.length >= 1) {
+    const room = textMatch[1].toLowerCase().trim();
+    const url = conferenceRooms[room as string];
+    if (url) {
+      await say({
+        blocks: [
+          {
+            type: "image",
+            image_url: url,
+            alt_text: "Map image",
+          },
+        ],
+
+        text: "In the Louisville office",
+      });
+    } else {
+      await say(barks[random(barks.length)]);
+    }
+  }
 };
