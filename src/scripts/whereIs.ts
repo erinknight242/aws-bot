@@ -85,8 +85,7 @@ export const conferenceRooms = {
     "https://www.eknightmusic.com/images/maps/hummingbird.jpg",
   "training 103": "https://www.eknightmusic.com/images/maps/hummingbird.jpg",
   wellness: "https://www.eknightmusic.com/images/maps/thegym.jpg",
-  woodpecker:
-    "https://64.media.tumblr.com/3ce1699f571e06b859c28cc982146d78/faf70da087c6ae0e-77/s1280x1920/16f54d1e168ddc035ec92ed3efdbd29fa595ad18.jpg",
+  woodpecker: "https://www.eknightmusic.com/images/maps/woodpecker.jpg",
 };
 
 export const barks = [

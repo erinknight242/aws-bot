@@ -13,7 +13,9 @@ To run the bot locally, first clone the repo, then set the following environment
 
 On the terminal from the app's root directory once you have found the appropriate values, run:
 `export SLACK_BOT_TOKEN=xoxb-tokenvalue`
+
 `export SLACK_SIGNING_SECRET=signingsecretvalue`
+
 `export SLACK_APP_TOKEN=xapp-tokenvalue`
 
 #### Local Development
@@ -33,7 +35,7 @@ To add a new script/function to the bot, create a new script in the `src/scripts
 
 #### Tests
 
-Tests rely on [Jest](https://jestjs.io/) and [`react-testing-library`](https://testing-library.com/docs/react-testing-library/intro). Tests can be run with the following:
+Tests rely on [Jest](https://jestjs.io/). Tests can be run with the following:
 
 ```sh
 # Run all tests
