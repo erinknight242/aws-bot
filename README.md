@@ -10,6 +10,7 @@ To run the bot locally, first clone the repo, then set the following environment
 - SLACK_APP_TOKEN - this is found in the Slack API under App-Level Tokens
 
 #### Setting local env vars on Mac
+
 On the terminal from the app's root directory once you have found the appropriate values, run:
 `export SLACK_BOT_TOKEN=xoxb-tokenvalue`
 `export SLACK_SIGNING_SECRET=signingsecretvalue`
@@ -19,13 +20,16 @@ On the terminal from the app's root directory once you have found the appropriat
 
 It's recommended that you use [VS Code](https://code.visualstudio.com/) during local development.This will let you use [Prettier](https://prettier.io/) to keep formatting and syntax consistent when you save a file.
 
-You can take advantage of a local development server (with hot reloading) to avoid re-publishing for every change:
+You can take advantage of a local development server (with hot reloading) to avoid restarting the app for every change:
 
 ```sh
 # Don't use npm! Only use yarn: https://yarnpkg.com/en/
 yarn install
 yarn run dev
 ```
+
+#### Adding a new script
+To add a new script/function to the bot, create a new script in the `src/scripts` folder. Then, in `src/app.ts` (at the bottom of the file), add a call to your new function to pass the app object into it.
 
 #### Tests
 

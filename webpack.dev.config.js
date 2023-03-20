@@ -10,7 +10,7 @@ module.exports = merge(baseConfig, {
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)$/,
+        test: /\.(js|ts)$/,
         include: SRC_DIR,
         exclude: /node_modules/,
         use: [

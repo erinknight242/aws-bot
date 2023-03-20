@@ -5,26 +5,17 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier",
   ],
   ignorePatterns: [".eslintrc.js", "*.config.js", "staticAssetMock.js", "/dist/**.*"],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    sourceType: "module",
-    ecmaFeatures: {
-      jsx: true,
-      modules: true
-    }
+    ecmaVersion: 13,
+    sourceType: 'module',
   },
-  plugins: ["react", "prettier"],
+  plugins: [ "prettier"],
   rules: {
-    "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off",
     "prettier/prettier": ["error"],
   },
-  settings: {
-    react: {
-      version: "detect"
-    }
-  }
 };

@@ -1,3 +1,5 @@
+import { App } from "../utils/types";
+
 // Ideally, move this to notion so it can be maintained by PMs outside of code
 const tempData = [
   { name: "Build Cycle 1", startDate: "10/17/22", endDate: "12/2/22" },
@@ -8,7 +10,7 @@ const tempData = [
   { name: "Cycle 3 Cool Down", startDate: "4/24/23", endDate: "5/5/23" },
 ];
 
-export default (app) => {
+export default (app: App) => {
   // Handle the slash command for /cycle [with an optional future date]
   app.command("/cycle", async ({ command, ack, say }) => {
     try {
@@ -55,19 +57,22 @@ export default (app) => {
     try {
       // Bot name tagged with the word cycle, respond with the cycle description (as long as they didn't say cycle status)
       if (event.text.search(/cycle(?! status)/gi) > -1) {
-        reply(say);
+        reply(say, "");
       }
     } catch (error) {
       console.error(error);
     }
   });
 
-  const reply = (say, string) => {
-    let date = null;
+  const reply = (
+    say: (arg0: string) => void,
+    string: string | number | Date
+  ) => {
+    let date: number;
     let output = "";
-    let today = new Date().setHours(0, 0, 0, 0);
-    if (string) {
-      let displayToday = new Date(string);
+    const today = new Date().setHours(0, 0, 0, 0);
+    if (string !== "") {
+      const displayToday = new Date(string);
       date = new Date(string).setHours(0, 0, 0, 0);
       output = `On ${displayToday.toLocaleDateString()}, we `;
       if (date > today) {
@@ -109,9 +114,9 @@ export default (app) => {
   };
 };
 
-const getDateBounds = (date) => {
-  let left = null;
-  let right = null;
+const getDateBounds = (date: number) => {
+  let left: number | null = null;
+  let right: number | null = null;
   for (let i = 0; i < tempData.length; i++) {
     const checkStart = new Date(tempData[i].startDate).setHours(0, 0, 0, 0);
     const checkEnd = new Date(tempData[i].endDate).setHours(0, 0, 0, 0);

@@ -1,4 +1,7 @@
+import { App } from "../utils/types";
 import { random } from "../utils/utils";
+
+export type ConferenceRoomNames = "bluebird" | "blue spruce" | "carnegie";
 
 const conferenceRooms = {
   bluebird: "https://www.eknightmusic.com/images/maps/bluebird.jpg",
@@ -7,6 +10,8 @@ const conferenceRooms = {
   chickadee: "https://www.eknightmusic.com/images/maps/chickadee.jpg",
   cottonwood: "https://www.eknightmusic.com/images/maps/cottonwood.jpg",
   "fiddler's green":
+    "https://www.eknightmusic.com/images/maps/fiddlersgreen.jpg",
+  "fiddlers green":
     "https://www.eknightmusic.com/images/maps/fiddlersgreen.jpg",
   flagstaff: "https://www.eknightmusic.com/images/maps/flagstaff.jpg",
   "grays & torreys":
@@ -24,6 +29,7 @@ const conferenceRooms = {
   studio: "https://www.eknightmusic.com/images/maps/studio.jpg",
   tanglewood: "https://www.eknightmusic.com/images/maps/tanglewood.jpg",
   "the bathroom": "https://www.eknightmusic.com/images/maps/restroom.jpg",
+  "the breakroom": "https://www.eknightmusic.com/images/maps/breakroom.jpg",
   "the break room": "https://www.eknightmusic.com/images/maps/breakroom.jpg",
   "the gym": "https://www.eknightmusic.com/images/maps/thegym.jpg",
   "the kitchen": "https://www.eknightmusic.com/images/maps/breakroom.jpg",
@@ -46,27 +52,29 @@ const barks = [
 
 const regex = /where ?[i']?s ([^?]*)([?]*)/gi;
 
-export default (app) => {
+export default (app: App) => {
   app.event("app_mention", async ({ event, say }) => {
     if (event.text.match(regex)) {
       const questionRegex = new RegExp(regex);
       const textMatch = questionRegex.exec(event.text);
-      const room = textMatch[1].toLowerCase().trim();
-      const url = conferenceRooms[room];
-      if (url) {
-        await say({
-          blocks: [
-            {
-              type: "image",
-              image_url: url,
-              alt_text: "Map image",
-            },
-          ],
+      if (textMatch && textMatch?.length >= 1) {
+        const room = textMatch[1].toLowerCase().trim();
+        const url = conferenceRooms[room as ConferenceRoomNames];
+        if (url) {
+          await say({
+            blocks: [
+              {
+                type: "image",
+                image_url: url,
+                alt_text: "Map image",
+              },
+            ],
 
-          text: "In the Louisville office",
-        });
-      } else {
-        await say(barks[random(barks.length)]);
+            text: "In the Louisville office",
+          });
+        } else {
+          await say(barks[random(barks.length)]);
+        }
       }
     }
   });

@@ -21,6 +21,8 @@ export const timeOfDay = (
   return timeOfDay;
 };
 
-export const getText = (message) => {
+export const getText = (message: {
+  blocks: { elements: { elements: { text: string }[] }[] }[];
+}) => {
   return message.blocks[0].elements[0].elements[1].text;
 };
