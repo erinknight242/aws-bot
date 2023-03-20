@@ -1,4 +1,4 @@
-import { random } from "../src/utils/utils";
+import { random } from "../utils/utils";
 
 const answers = [
   "It is certain",
@@ -24,7 +24,7 @@ const answers = [
 ];
 
 export default (app) => {
-  app.event("app_mention", async ({ event, context, client, say }) => {
+  app.event("app_mention", async ({ event, say }) => {
     if (event.text.match(/(will (.+)\?)/gi)) {
       await say(`:magic8ball: ${answers[random(answers.length)]}`);
     }

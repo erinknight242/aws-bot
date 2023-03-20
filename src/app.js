@@ -3,18 +3,17 @@ import {
   SecretsManagerClient,
   GetSecretValueCommand,
 } from "@aws-sdk/client-secrets-manager";
-import cycleInfo from "../scripts/cycleInfo";
-import hello from "../scripts/hello";
-import magic8 from "../scripts/magic8";
-import whereIs from "../scripts/whereIs";
+import cycleInfo from "./scripts/cycleInfo";
+import hello from "./scripts/hello";
+import magic8 from "./scripts/magic8";
+import whereIs from "./scripts/whereIs";
 
 let response;
 let secret;
 let app;
 
-console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV !== "development") {
-  console.log("not development");
+  // get configs from AWS secret manager
   const secret_name = "aws-bot-secret";
   const client = new SecretsManagerClient({
     region: "us-east-2",
@@ -23,15 +22,15 @@ if (process.env.NODE_ENV !== "development") {
     response = await client.send(
       new GetSecretValueCommand({
         SecretId: secret_name,
-        VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
+        VersionStage: "AWSCURRENT",
       })
     );
 
-    console.log("here 4");
     secret = JSON.parse(response.SecretString);
     startApp();
   })();
 } else {
+  // use local env vars
   startApp();
 }
 
@@ -42,18 +41,15 @@ function startApp() {
   let appToken = "";
 
   if (process.env.NODE_ENV === "development") {
-    console.log("development");
     token = process.env.SLACK_BOT_TOKEN;
     signingSecret = process.env.SLACK_SIGNING_SECRET;
     socketMode = true;
     appToken = process.env.SLACK_APP_TOKEN;
   } else {
-    console.log("not development");
     token = secret.SLACK_BOT_TOKEN;
     signingSecret = secret.SLACK_SIGNING_SECRET;
     socketMode = false;
   }
-  console.log(token, signingSecret, socketMode);
 
   app = new App({
     token,

@@ -39,19 +39,19 @@ export default (app) => {
       } will start on ${tempData[cycleDates.left + 1].startDate}`;
     } else {
       // in a normal build cycle
-      if (false) {
+      if (cycleDates.right === date) {
         output = `It's the last day of the cycle! ${
           tempData[cycleDates.left + 1].name
         } will start on ${tempData[cycleDates.left + 1].startDate}`;
       } else {
-        output = "Countdown here";
+        output = "Countdown here"; // TODO finish these two conditions
       }
     }
 
     say(output);
   });
 
-  app.event("app_mention", async ({ event, context, client, say }) => {
+  app.event("app_mention", async ({ event, say }) => {
     try {
       // Bot name tagged with the word cycle, respond with the cycle description (as long as they didn't say cycle status)
       if (event.text.search(/cycle(?! status)/gi) > -1) {
@@ -62,15 +62,13 @@ export default (app) => {
     }
   });
 
-  function reply(say, string) {
-    let currentDate = true;
+  const reply = (say, string) => {
     let date = null;
     let output = "";
     let today = new Date().setHours(0, 0, 0, 0);
     if (string) {
       let displayToday = new Date(string);
       date = new Date(string).setHours(0, 0, 0, 0);
-      currentDate = false;
       output = `On ${displayToday.toLocaleDateString()}, we `;
       if (date > today) {
         output += "will be in ";
@@ -108,10 +106,10 @@ export default (app) => {
     }
 
     say(output);
-  }
+  };
 };
 
-function getDateBounds(date) {
+const getDateBounds = (date) => {
   let left = null;
   let right = null;
   for (let i = 0; i < tempData.length; i++) {
@@ -131,4 +129,4 @@ function getDateBounds(date) {
     left,
     right,
   };
-}
+};

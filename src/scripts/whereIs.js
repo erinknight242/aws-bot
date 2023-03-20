@@ -1,4 +1,4 @@
-import { random } from "../src/utils/utils";
+import { random } from "../utils/utils";
 
 const conferenceRooms = {
   bluebird: "https://www.eknightmusic.com/images/maps/bluebird.jpg",
