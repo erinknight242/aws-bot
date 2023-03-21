@@ -1,13 +1,13 @@
-import { App } from "@slack/bolt";
+import { App } from '@slack/bolt';
 import {
   SecretsManagerClient,
   GetSecretValueCommand,
   GetSecretValueCommandOutput,
-} from "@aws-sdk/client-secrets-manager";
-import cycleInfo from "./scripts/cycleInfo";
-import hello from "./scripts/hello";
-import magic8 from "./scripts/magic8";
-import whereIs from "./scripts/whereIs";
+} from '@aws-sdk/client-secrets-manager';
+import cycleInfo from './scripts/cycleInfo';
+import hello from './scripts/hello';
+import magic8 from './scripts/magic8';
+import whereIs from './scripts/whereIs';
 
 export type SecretFormat = {
   SLACK_SIGNING_SECRET?: string;
@@ -19,19 +19,19 @@ let secret: SecretFormat;
 let app;
 
 const startApp = () => {
-  let token = "";
-  let signingSecret = "";
+  let token = '';
+  let signingSecret = '';
   let socketMode = false;
-  let appToken = "";
+  let appToken = '';
 
-  if (process.env.NODE_ENV === "development") {
-    token = process.env.SLACK_BOT_TOKEN || "";
-    signingSecret = process.env.SLACK_SIGNING_SECRET || "";
+  if (process.env.NODE_ENV === 'development') {
+    token = process.env.SLACK_BOT_TOKEN || '';
+    signingSecret = process.env.SLACK_SIGNING_SECRET || '';
     socketMode = true;
-    appToken = process.env.SLACK_APP_TOKEN || "";
+    appToken = process.env.SLACK_APP_TOKEN || '';
   } else {
-    token = secret.SLACK_BOT_TOKEN || "";
-    signingSecret = secret.SLACK_SIGNING_SECRET || "";
+    token = secret.SLACK_BOT_TOKEN || '';
+    signingSecret = secret.SLACK_SIGNING_SECRET || '';
   }
 
   app = new App({
@@ -44,7 +44,7 @@ const startApp = () => {
   (async () => {
     await app.start(process.env.PORT || 3000);
 
-    console.log("⚡️ Bolt app is running!");
+    console.log('⚡️ Bolt app is running!');
 
     cycleInfo(app);
     hello(app);
@@ -53,17 +53,17 @@ const startApp = () => {
   })();
 };
 
-if (process.env.NODE_ENV !== "development") {
+if (process.env.NODE_ENV !== 'development') {
   // get configs from AWS secret manager
-  const secret_name = "aws-bot-secret";
+  const secret_name = 'aws-bot-secret';
   const client = new SecretsManagerClient({
-    region: "us-east-2",
+    region: 'us-east-2',
   });
   (async () => {
     response = await client.send(
       new GetSecretValueCommand({
         SecretId: secret_name,
-        VersionStage: "AWSCURRENT",
+        VersionStage: 'AWSCURRENT',
       })
     );
     if (response.SecretString) {

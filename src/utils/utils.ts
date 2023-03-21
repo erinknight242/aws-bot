@@ -1,4 +1,4 @@
-import { Message } from "./types";
+import { Message } from './types';
 
 /**
  * Returns a random integer (zero-indexed)
@@ -14,20 +14,18 @@ export const random = (range = 10) => {
  * @param {string} timeString Date.toLocaleTimeString formatted to a 2-digit hour
  * @returns {string}          The time of day
  */
-export const timeOfDay = (
-  timeString = new Date().toLocaleTimeString([], { hour: "2-digit" })
-) => {
-  const timeArray = timeString.split(" ");
+export const timeOfDay = (timeString = new Date().toLocaleTimeString([], { hour: '2-digit' })) => {
+  const timeArray = timeString.split(' ');
   let hour = parseInt(timeArray[0]);
-  if (timeArray.length === 2 && timeArray[1] === "PM" && hour < 12) {
+  if (timeArray.length === 2 && timeArray[1] === 'PM' && hour < 12) {
     hour += 12;
   }
-  let timeOfDay = "morning";
+  let timeOfDay = 'morning';
 
   if (hour >= 12 && hour < 17) {
-    timeOfDay = "afternoon";
+    timeOfDay = 'afternoon';
   } else if (hour > 17) {
-    timeOfDay = "evening";
+    timeOfDay = 'evening';
   }
 
   return timeOfDay;

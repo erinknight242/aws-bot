@@ -18,6 +18,14 @@ On the terminal from the app's root directory once you have found the appropriat
 
 `export SLACK_APP_TOKEN=xapp-tokenvalue`
 
+#### Setting local env vars on Windows
+On the terminal from the app's root directory once you have found the appropriate values, run:
+`set SLACK_BOT_TOKEN=xoxb-tokenvalue`
+
+`set SLACK_SIGNING_SECRET=signingsecretvalue`
+
+`set SLACK_APP_TOKEN=xapp-tokenvalue`
+
 #### Local Development
 
 It's recommended that you use [VS Code](https://code.visualstudio.com/) during local development.This will let you use [Prettier](https://prettier.io/) to keep formatting and syntax consistent when you save a file.
