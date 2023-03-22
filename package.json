@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Your friendly neighborhood robot",
   "scripts": {
-    "build": "yarn run clean && webpack --config webpack.prod.config.js",
-    "start": "node ./dist/main.bundle.js",
-    "dev": "cross-env NODE_ENV=development nodemon --exec node_modules/.bin/ts-node ./src/app.ts",
+    "start": "rimraf .build && serverless offline --noPrependStageInUrl",
     "clean": "rimraf dist",
     "lint": "eslint \"./src/**/*.{js,ts}\" --fix --cache",
     "test": "yarn run jest"
@@ -52,7 +50,12 @@
     "jest": "^29.5.0",
     "nodemon": "^2.0.21",
     "prettier": "^2.8.4",
+    "rimraf": "^4.4.1",
+    "serverless": "^3.28.1",
+    "serverless-offline": "^12.0.4",
+    "serverless-plugin-typescript": "^2.1.4",
     "ts-jest": "^29.0.5",
+    "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2",
     "utf-8-validate": "^6.0.3",
