@@ -6,6 +6,7 @@ import { App, AwsLambdaReceiver } from '@slack/bolt';
 // } from '@aws-sdk/client-secrets-manager';
 import cycleInfo from './scripts/cycleInfo';
 import hello from './scripts/hello';
+import help from './scripts/help';
 import magic8 from './scripts/magic8';
 import whereIs from './scripts/whereIs';
 
@@ -45,6 +46,7 @@ const startApp = () => {
 
     cycleInfo(app);
     hello(app);
+    help(app);
     magic8(app);
     whereIs(app);
   })();
